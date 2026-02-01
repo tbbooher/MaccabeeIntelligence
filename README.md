@@ -6,6 +6,7 @@ An automated commodities market intelligence system powered by OpenClaw.
 
 ## What It Does
 
+### Current System
 1. **Daily Materials Morning Brief** at 8:00am CT covering:
    - Top 5 global developments affecting commodity supply/demand
    - Flow signals: sanctions, shipping disruptions, inventory moves
@@ -16,6 +17,30 @@ An automated commodities market intelligence system powered by OpenClaw.
 2. **Gmail Integration** - monitors for unread messages, summarizes them, waits for confirmation before acting
 
 3. **Live Dashboard** - web UI showing latest briefs, price ticker, and history
+
+### Planned Agent-Based Analysis Shop
+**11 Specialized OpenClaw Agents** providing comprehensive commodities intelligence:
+
+**Collection Agents:**
+- Global Events Monitor - geopolitical events affecting markets
+- Supply Chain Intelligence - shipping, inventory, infrastructure disruptions  
+- Demand Signal Analyzer - consumption patterns and demand drivers
+
+**Analysis Agents:**
+- Price Pattern Recognition - technical analysis and signals
+- Cross-Asset Correlations - multi-asset relationship analysis
+- Fundamental Valuation - fair value estimation using supply/demand models
+
+**Strategy Agents:**
+- Strategy Backtester - rigorous testing of trading strategies
+- Portfolio Optimizer - optimal commodity portfolio construction
+- Risk Manager - real-time risk monitoring and alerts
+
+**Reporting Agents:**
+- Daily Brief Generator - synthesizes all outputs into actionable intelligence
+- Weekly Strategy Review - comprehensive strategy performance and outlook
+
+See `AGENT_ARCHITECTURE.md` for complete specifications.
 
 ## Components
 

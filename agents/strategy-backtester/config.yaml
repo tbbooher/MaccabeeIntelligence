@@ -1,0 +1,77 @@
+name: strategy-backtester
+description: "Tests trading strategies against historical commodity data"
+version: "1.0.0"
+
+model:
+  provider: "anthropic"
+  model: "claude-3-5-sonnet-20241022"
+  temperature: 0.1
+  max_tokens: 6000
+
+tools:
+  - name: data_query
+    description: "Query historical price and fundamental data"
+  - name: python_executor
+    description: "Execute Python backtesting code"
+  - name: chart_generator
+    description: "Generate performance charts"
+  - name: report_generator
+    description: "Generate backtest reports"
+
+schedule:
+  trigger: "on_demand"  # Triggered by strategy requests
+  
+parameters:
+  lookback_years: 5
+  benchmark: "DJP"  # PowerShares DB Commodity Index
+  risk_free_rate: 0.05
+  transaction_costs: 0.001  # 10 bps per trade
+
+output:
+  format: "structured"
+  schema:
+    type: "object"
+    properties:
+      strategy_name: { type: "string" }
+      backtest_period: { type: "string" }
+      total_return: { type: "number" }
+      annualized_return: { type: "number" }
+      volatility: { type: "number" }
+      sharpe_ratio: { type: "number" }
+      sortino_ratio: { type: "number" }
+      max_drawdown: { type: "number" }
+      win_rate: { type: "number" }
+      profit_factor: { type: "number" }
+      trades_count: { type: "integer" }
+      benchmark_comparison: { type: "object" }
+
+memory:
+  type: "persistent"
+  retention_days: 365
+
+strategy_library:
+  - name: "momentum_crossover"
+    description: "Moving average crossover strategy"
+    parameters:
+      fast_ma: 20
+      slow_ma: 50
+      
+  - name: "mean_reversion"
+    description: "RSI-based mean reversion"
+    parameters:
+      rsi_period: 14
+      oversold: 30
+      overbought: 70
+      
+  - name: "breakout"
+    description: "Bollinger Band breakout strategy"
+    parameters:
+      bb_period: 20
+      bb_std: 2
+      
+  - name: "pairs_trading"
+    description: "Statistical arbitrage between correlated commodities"
+    parameters:
+      lookback: 60
+      entry_zscore: 2.0
+      exit_zscore: 0.5

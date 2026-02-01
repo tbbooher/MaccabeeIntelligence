@@ -1,0 +1,49 @@
+name: global-events-monitor
+description: "Tracks geopolitical events affecting commodity markets"
+version: "1.0.0"
+
+model:
+  provider: "anthropic"
+  model: "claude-3-5-sonnet-20241022"
+  temperature: 0.1
+  max_tokens: 4000
+
+tools:
+  - name: web_search
+    description: "Search for recent news and events"
+  - name: web_fetch
+    description: "Fetch detailed content from news sources"
+  - name: data_store
+    description: "Store structured event data"
+
+schedule:
+  cron: "0 */2 * * *"  # Every 2 hours
+  timezone: "America/Chicago"
+
+output:
+  format: "structured"
+  schema:
+    type: "object"
+    properties:
+      events:
+        type: "array"
+        items:
+          type: "object"
+          properties:
+            title: { type: "string" }
+            summary: { type: "string" }
+            source: { type: "string" }
+            timestamp: { type: "string" }
+            severity: { type: "integer", minimum: 1, maximum: 10 }
+            affected_commodities: { type: "array", items: { type: "string" } }
+            impact_timeline: { type: "string", enum: ["immediate", "short-term", "long-term"] }
+            confidence: { type: "number", minimum: 0, maximum: 1 }
+
+memory:
+  type: "persistent"
+  retention_days: 30
+
+alerts:
+  - condition: "severity >= 8"
+    channels: ["slack", "email"]
+    message: "High severity commodity event detected"
